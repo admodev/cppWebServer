@@ -13,6 +13,18 @@
 // struct containing settings for how to serve http with mongoose
 static struct mg_serve_http_opts s_http_server_opts;
 
+// event handler
+
+static void ev_handler(struct mg_connection *nc, int ev, void *p)
+{
+  // if event is a http request
+  if (ev == MG_EV_HTTP_REQUEST)
+    {
+      // serve static html files
+      mg_serve_http(nc, (struct http_message *) p, s_http_server_opts );
+    }
+}
+
 int initServer(port)
 {
   // mongoose event manager
@@ -49,6 +61,11 @@ int initServer(port)
     {
       mg__mgr_poll($mgr, 1000);
     }
+
+  // free up all memory allocated
+  mg_mgr_free(&mgr);
+
+  return 0;
 }
 
 int main(void)
