@@ -25,7 +25,7 @@ static void ev_handler(struct mg_connection *nc, int ev, void *p)
     }
 }
 
-int initServer(port)
+int initServer(int port)
 {
   // mongoose event manager
   struct mg_mgr mgr;
@@ -78,7 +78,7 @@ int main(void)
   // fail case error handling
   if (std::cin.fail())
     {
-      por = 1000;
+      port = 1000;
     }
 
   initServer(port);
